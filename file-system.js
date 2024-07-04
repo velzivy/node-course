@@ -51,3 +51,48 @@ const path = require('path')
 //     console.log('Файл записан.')
 // })
 
+const writeFileAsync = async (path, data) => {
+    return new Promise((resolve, reject) => {
+        fs.writeFile(path, data, (error) => {
+            if(error) {
+                reject(error)
+            }
+
+            resolve()
+        })
+    })
+}
+
+const appendFileAsync = async (path, data) => {
+    return new Promise((resolve, reject) => {
+        fs.appendFile(path, data, (error) => {
+            if(error) {
+                reject(error)
+            }
+
+            resolve()
+        })
+    })
+}
+
+// writeFileAsync(path.resolve(__dirname, 'text.txt'), 'hello')
+// .then(() => appendFileAsync(path.resolve(__dirname, 'text.txt'), ' иди нахуй!'))
+// .then(() => appendFileAsync(path.resolve(__dirname, 'text.txt'), ' иди нахуй!'))
+// .then(() => appendFileAsync(path.resolve(__dirname, 'text.txt'), ' иди нахуй!'))
+// .then(() => appendFileAsync(path.resolve(__dirname, 'text.txt'), ' иди нахуй!'))
+// .catch((error) => console.log(error))
+
+const removeFileAsync = async (path) => {
+    return new Promise((resolve, reject) => {
+        fs.rm(path, (error) => {
+            if(error) {
+                reject(error)
+            }
+
+            resolve('Файл был удалён!')
+        })
+    })
+}
+
+removeFileAsync(path.resolve(__dirname, 'text.txt'))
+.then((result) => console.log(result))
