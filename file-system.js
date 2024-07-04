@@ -63,23 +63,23 @@ const writeFileAsync = async (path, data) => {
     })
 }
 
-const appendFileAsync = async (path, data) => {
-    return new Promise((resolve, reject) => {
-        fs.appendFile(path, data, (error) => {
-            if(error) {
-                reject(error)
-            }
+// const appendFileAsync = async (path, data) => {
+//     return new Promise((resolve, reject) => {
+//         fs.appendFile(path, data, (error) => {
+//             if(error) {
+//                 reject(error)
+//             }
 
-            resolve()
-        })
-    })
-}
+//             resolve()
+//         })
+//     })
+// }
 
 // writeFileAsync(path.resolve(__dirname, 'text.txt'), 'hello')
-// .then(() => appendFileAsync(path.resolve(__dirname, 'text.txt'), ' иди нахуй!'))
-// .then(() => appendFileAsync(path.resolve(__dirname, 'text.txt'), ' иди нахуй!'))
-// .then(() => appendFileAsync(path.resolve(__dirname, 'text.txt'), ' иди нахуй!'))
-// .then(() => appendFileAsync(path.resolve(__dirname, 'text.txt'), ' иди нахуй!'))
+// .then(() => appendFileAsync(path.resolve(__dirname, 'text.txt'), ' ОСУУУУУУЖДАЮ!!'))
+// .then(() => appendFileAsync(path.resolve(__dirname, 'text.txt'), ' ОСУУУУУУЖДАЮ!!'))
+// .then(() => appendFileAsync(path.resolve(__dirname, 'text.txt'), ' ОСУУУУУУЖДАЮ!!'))
+// .then(() => appendFileAsync(path.resolve(__dirname, 'text.txt'), ' ОСУУУУУУЖДАЮ!!'))
 // .catch((error) => console.log(error))
 
 const removeFileAsync = async (path) => {
@@ -94,5 +94,25 @@ const removeFileAsync = async (path) => {
     })
 }
 
-removeFileAsync(path.resolve(__dirname, 'text.txt'))
-.then((result) => console.log(result))
+// removeFileAsync(path.resolve(__dirname, 'text.txt'))
+// .then((result) => console.log(result))
+
+const readFileAsync = async (path) => {
+    return new Promise((resolve, reject) => {
+        fs.readFile(path, 'utf8', (error, data) => {
+            if(error) {
+                reject(error)
+            }
+
+            resolve(data)
+        })
+    })
+}
+
+const text = process.env.TEXT || ''
+
+writeFileAsync(path.resolve(__dirname, 'text.txt'), text)
+.then(() => readFileAsync(path.resolve(__dirname, 'text.txt')))
+.then(data => data.split(' ').length)
+.then(count => writeFileAsync(path.resolve(__dirname, 'count.txt',), `кол-во слов ${count}`))
+.then(() => removeFileAsync(path.resolve(__dirname, 'text.txt')))
