@@ -25,9 +25,6 @@ module.exports = class Application {
 
     _createServer() {
         return http.createServer((req, res) => {
-            res.writeHead(200, {
-                'Content-type': 'text/html; charset=utf-8'
-            })
             const emitted = this.emitter.emit(this._getRouterMask(req.url, req.method), req, res)
             if(!emitted) { // возвращает boolean значение
                 res.end()
