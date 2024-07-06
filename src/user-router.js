@@ -9,6 +9,7 @@ const users = [
 ]
 
 router.get('/users', (req, res) => {
+    console.log(req.params);
     res.send(users);
 })
 
