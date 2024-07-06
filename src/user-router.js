@@ -12,7 +12,7 @@ router.get('/users', (req, res) => {
     console.log(req.params);
 
     if(req.params.id) {
-        return res.send(users.find(user => user.id === req.params.id))
+        return res.send(users.find(user => user.id == req.params.id))
     }
     res.send(users);
 })
