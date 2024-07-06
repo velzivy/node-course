@@ -12,4 +12,10 @@ router.get('/users', (req, res) => {
     res.send(users);
 })
 
+router.post('/users', (req, res) => {
+    console.log(req.body)
+    users.push(req.body)
+    res.send(req.body);
+})
+
 module.exports = router
