@@ -4,8 +4,11 @@ const EventEmitter = require('events');
 const PORT = process.env.PORT || 5000;
 
 const Router = require('./routes/router')
+const Application = require('./routes/Application')
 
 const emitter = new EventEmitter()
+
+const app = new Application()
 
 const router = new Router()
 
@@ -13,19 +16,8 @@ router.get('/users', (req, res) => {
     res.end(`Вы отправили запрос на ${req.url}`)
 })
 
-const server = http.createServer((req, res) => {
-    res.writeHead(200, {
-        'Content-type': 'text/html; charset=utf-8'
-    })
+app.addRouter(router)
 
-    
-    const emitted = emitter.emit(`[${req.url}]:[${req.method}]`, req, res)
-
-    if(!emitted) { // возвращает boolean значение
-        res.end()
-    }
-})
-
-server.listen(PORT, () => {
+app.listen(PORT, () => {
     console.log(`Сервер запустился на пору ${PORT}`)
 })

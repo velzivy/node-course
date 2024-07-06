@@ -7,12 +7,35 @@ module.exports = class Application {
         this.server = this._createServer()
     }
 
+    listen(port, callback) {
+        this.server.listen(port, callback)
+    }
+
+    addRouter(router) {
+        Object.keys(router.endpoints).forEach(path => {
+            const endpoint = router.endpoints[path];
+            Object.keys(endpoint).forEach(method => {
+                const handler = endpoint[method]
+                this.emitter.on(this._getRouterMask(path, method), (req, res) => {
+                    handler(req, res)
+                })
+            })
+        })
+    }
+
     _createServer() {
         return http.createServer((req, res) => {
-            const emitted = emitter.emit(`[${req.url}]:[${req.method}]`, req, res)
+            res.writeHead(200, {
+                'Content-type': 'text/html; charset=utf-8'
+            })
+            const emitted = this.emitter.emit(this._getRouterMask(req.url, req.method), req, res)
             if(!emitted) { // возвращает boolean значение
                 res.end()
             }
         });
+    }
+
+    _getRouterMask(path, method) {
+        return `[${path}]:[${method}]`
     }
 }
