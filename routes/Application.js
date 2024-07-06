@@ -22,7 +22,6 @@ module.exports = class Application {
             Object.keys(endpoint).forEach(method => {
                 const handler = endpoint[method]
                 this.emitter.on(this._getRouterMask(path, method), (req, res) => {
-                    this.middleware.forEach(middleware => middleware(req, res))
                     handler(req, res)
                 })
             })
@@ -40,7 +39,9 @@ module.exports = class Application {
                 if(body) {
                     req.body = JSON.parse(body);
                 }
-                const emitted = this.emitter.emit(this._getRouterMask(req.url, req.method), req, res)
+                this.middleware.forEach(middleware => middleware(req, res))
+                console.log(req.pathname)
+                const emitted = this.emitter.emit(this._getRouterMask(req.pathname, req.method), req, res)
                 if(!emitted) { // возвращает boolean значение
                     res.end()
                 }

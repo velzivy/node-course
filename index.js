@@ -6,7 +6,7 @@ const parseUrl = require('./parseUrl')
 const app = new Application()
 
 app.use(jsonParser)
-app.use(parseUrl)
+app.use(parseUrl('http://localhost:5000'))
 
 app.addRouter(userRouter)
 
